@@ -1,0 +1,130 @@
+<!-- snippets/product-faq -->
+{% if product.metafields.custom.product_faqss != blank %}
+  {% assign meta_product_faq = product.metafields.custom.product_faqss.value %}
+  <div class="pdp_faq_container">
+    <div class="pdp__faq_block cstm-page-width">
+      {% for meta in meta_product_faq %}
+         <h4 class="faq-heading font-size-heading font-bold">{{ meta.faq_heading }}</h4>
+      <p class="faq-sub-heading font-size-content">{{ meta.faq_sub_heading }}</p>
+        {% for pdp_meta in meta.faq_question.value %}
+          <div class="pdp__faq">
+            <p class="pdp-question font-bold">
+              {{ pdp_meta }}
+              <span>{% render 'icon' with 'arrow-down' %}</span>
+            </p>
+            <p class="pdp-answer">{{ meta.faq_answer.value[forloop.index0] }}</p>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+  .pdp_faq_container {
+    padding: 15px 20px;
+}
+.pdp__faq_block{
+  padding-top : 28px;
+  padding-bottom: 50px;
+}
+.pdp__faq {
+    border-bottom: 1px solid #c9c8c7;
+    padding: 15px 0;
+}
+.faq-heading{
+  /* font-size: 38px; */
+  text-align: center;
+}
+.faq-sub-heading{
+  text-align: center;
+  /* font-size: 18px; */
+  padding-bottom: 20px;
+  /* font-size: 17px; */
+}
+.pdp-answer{
+  display: none;
+  margin-top: 8px;
+  line-height: 20px;
+  font-size: 17px;
+  color: #636161;
+  
+}
+.pdp-question.is-open + .pdp-answer {
+  display: block;
+}
+p.pdp-question {
+  /* font-weight: 600; */
+  font-size: 20px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: black;
+  font-weight: 600;
+}
+/* .pdp-question span{
+  float: right;
+} */
+p.pdp-question.is-open span {
+   transform: rotate(180deg);
+}
+/* .pdp_faq_container {
+  background: #f7f4f1;
+  margin-top: 50px;
+} */
+@media screen and (max-width: 999px) {
+  .pdp__faq_block{
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media screen and (max-width: 699px) {
+  p.pdp-question{
+    line-height: 21px;
+    font-size: 15px;
+  }
+  .pdp-answer{
+    padding-top: 0;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .faq-heading{
+    padding-bottom: 8px;
+  }
+  .faq-sub-heading{
+    padding-bottom: 8px;
+  }
+  .pdp-question svg{
+    width: 16px;
+    height: 16px;
+  }
+  /* .pdp__faq_block{
+    padding-top: 55px;
+  } */
+}
+</style>
+
+<script>
+  // snippets/product-faq/js ------ product faq js
+let faqQuestion = document.querySelectorAll('.pdp-question');
+
+faqQuestion.forEach((singleQues, index) => {
+  if (index === 0) {
+    singleQues.classList.add("is-open");
+  }
+  singleQues.addEventListener("click", () => {
+    if (singleQues.classList.contains("is-open")) {
+      singleQues.classList.remove("is-open");
+    } else {
+      const singleQuesOpen = document.querySelectorAll(".is-open");
+      singleQuesOpen.forEach((quesOpen) => {
+        quesOpen.classList.remove("is-open");
+      });
+      singleQues.classList.add("is-open");
+    }
+  });
+});
+
+</script>
